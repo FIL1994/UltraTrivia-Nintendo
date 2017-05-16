@@ -1,0 +1,327 @@
+<!--
+Ultra Trivia - Nintendo
+@author Philip Van Raalte
+@date January 25, 2017
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <title>Ultra Trivia - Nintendo</title>
+        <!--Stylesheets-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway|Exo+2|Roboto|Rock+Salt" rel="stylesheet">
+        <link rel="stylesheet" href="lib/materialize/css/materialize.min.css">
+        <style>
+            .middle {
+                margin-left: 35%;
+            }
+            html{
+                height:100%;
+                background-color: antiquewhite;
+            }
+            body{
+                min-height:100%;
+                display:flex;
+                flex-direction:column
+            }
+            #content{
+                flex:1
+            }
+            /*For medals */
+            .medal{
+                position: fixed;
+                bottom: 0px;
+                right:0px;
+                padding: 10px;
+                background-color: grey;
+                opacity: 0.95;
+                color: white;
+                margin: 1rem;
+                text-align: center;
+            }
+            /*For medals */
+            .disappear{
+                opacity:0;
+                transition:opacity 1.2s ease;
+                transition-delay: 1.8s;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="naxbar-fixed">
+            <nav class="red darken-3">
+                <div class="brand-logo center">
+                    <ul>
+                        <li>ULTRA TRIVIA - NINTENDO</li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <section id="content" class="container">
+            <div id="preloader" class="center">
+                <br><br><br><br>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+                </div>
+
+                <br>
+            </div>
+            <div id="main" class="hiddendiv">
+                <h5 id="question" class="center">When was the NES released?</h5>
+                <div class="divider black"></div>
+                <br>
+                <form action="#">
+                    <p class="middle">
+                        <input name="answers" type="radio" id="test1" />
+                        <label id="a1" for="test1">1983</label>
+                    </p>
+                    <p class="middle">
+                        <input name="answers" type="radio" id="test2" />
+                        <label id="a2" for="test2">1984</label>
+                    </p>
+                    <p class="middle">
+                        <input name="answers" type="radio" id="test3"  />
+                        <label id="a3" for="test3">1985</label>
+                    </p>
+                    <p class="middle">
+                        <input name="answers" type="radio" id="test4"  />
+                        <label id="a4" for="test4">1979</label>
+                    </p>
+                </form>
+                <div class="center" style="margin-top: 10px;">
+                    <a id="btnNext" class="btn red darken-2">Next Question</a>
+                </div>
+                <p id="error" class="red-text center"></p>
+                <p id="info" class="center"></p>
+                <p id="seconds" class="center" style="margin: -14px;">0 Seconds</p>
+            </div>
+            <div id="end" class="hiddendiv">
+                <h5 class="center">End Game</h5>
+                <div class="divider black"></div>
+                <br>
+                <p class="center flow-text">
+                    <b id="percent">80%</b>
+                </p>
+                <br>
+                <div class="center">
+                    <a id="btnPlayAgain" class="btn red darken-2">Play Again</a>
+                </div>
+                <br>
+            </div>
+        </section>
+        <footer class="page-footer red darken-3">
+            <div class="footer-copyright">
+                <div class="container center">
+                    © 2017 FIL1994
+                </div>
+            </div>
+        </footer>
+        <!--Scripts-->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="lib/materialize/js/materialize.min.js"></script>
+        <script>
+            function QA () {
+                this.question = "When was the NES released in Japan?";
+                this.answers = ["1985", "1979", "1983", "1984"];
+                this.correct = 2;
+            }
+
+            var QAs = [];
+            var qa1 = new QA();
+            var qa2 = new QA();
+            qa2.question = "When was Nintendo founded?";
+            qa2.answers = ["1981", "1889", "1893", "1942"];
+            qa2.correct = 1;
+            var qa3 = new QA();
+            qa3.question = "Who was the producer of Metroid(1986)?";
+            qa3.answers = ["Fusajiro Yamauchi", "Yoshio Sakamoto", "Satoru Iwata", "Gunpei Yokoi"];
+            qa3.correct = 3;
+            var qa4 = new QA();
+            qa4.question = "When was the SNES released in North America?";
+            qa4.answers = ["1991", "1992", "1989", "1990"];
+            qa4.correct = 0;
+            var qa5 = new QA();
+            qa5.question = "Who succeeded Hiroshi Yamauchi as president of Nintendo?";
+            qa5.answers = ["Fusajiro Yamauchi", "Shigeru Miyamoto", "Satoru Iwata", "Tsunekazu Ishihara"];
+            qa5.correct = 2;
+            var qa6 = new QA();
+            qa6.question = "When was Super Mario Bros. 3 released in North America?";
+            qa6.answers = ["1989", "1988", "1991", "1990"];
+            qa6.correct = 3;
+            var qa7 = new QA();
+            qa7.question = "Who is the producer of Super Mario RPG?";
+            qa7.answers = ["Kazuhiko Aoki", "Chihiro Fujioka", "Shigeru Miyamoto", "Gunpei Yokoi"];
+            qa7.correct = 2;
+            var qa8 = new QA();
+            qa8.question = "What is the Super Nintendo Entertainment System called in Japan?";
+            qa8.answers = ["Super Famico", "Super Famicom", "Ultra Arigatou", "Super Comboy"];
+            qa8.correct = 1;
+            var qa9 = new QA();
+            qa9.question = "What did Star Fox make use of to have 3D graphics?";
+            qa9.answers = ["Super FX", "Mode 6", "Blast Processing", "O74BY Core"];
+            qa9.correct = 0;
+            var qa10 = new QA();
+            qa10.question = "Who is the composer of The Legend of Zelda: A Link the Past?";
+            qa10.answers = ["Kensuke Tanabe", "Shigeru Miyamoto", "Kenji Yamamoto", "Koji Kondo"];
+            qa10.correct = 3;
+            var qa11 = new QA();
+            qa11.question = "Who is the Space Pirate commander in Super Metroid?";
+            qa11.answers = ["Ridley", "Sylux", "Mother Brain", "Samus"];
+            qa11.correct = 0;
+            var qa12 = new QA();
+            qa12.question = "When was the Virtual Boy released in North America?";
+            qa12.answers = ["1993", "1998", "1994", "1995"];
+            qa12.correct = 3;
+            var qa13 = new QA();
+            qa13.question = "Which of the following was a launch game for the Nintendo 64?";
+            qa13.answers = ["GoldenEye 007", "Pilotwings 64", "Star Fox 64", "F-Zero X"];
+            qa13.correct = 1;
+            var qa14 = new QA();
+            qa14.question = "When was Super Smash Bros. released in Europe?";
+            qa14.answers = ["2000", "1999", "1997", "2001"];
+            qa14.correct = 1;
+            var qa15 = new QA();
+            qa15.question = "How many rupees does the Deku Shield, in Ocarina of Time, cost?";
+            qa15.answers = ["80", "40", "60", "50"];
+            qa15.correct = 1;
+            var qa16 = new QA();
+            qa16.question = "When did Gunpei Yokoi leave Nintendo?";
+            qa16.answers = ["1994", "1999", "1997", "1996"];
+            qa16.correct = 3;
+            var qa17 = new QA();
+            qa17.question = "Who is the producer of Donkey Kong 64?";
+            qa17.answers = ["David Wise", "Gregg Mayles", "Shigeru Miyamoto", "Taiki Ubukata"];
+            qa17.correct = 2;
+            var qa18 = new QA();
+            qa18.question = "When was the Game Boy Color released in North America?";
+            qa18.answers = ["1998", "1989", "1994", "1996"];
+            qa18.correct = 0;
+            var qa19 = new QA();
+            qa19.question = "Which of the following was not a launch game for the Game Boy Color in the US?";
+            qa19.answers = ["Centipede", "Tetris DX", "Pocket Bomberman", "Dr. Mario"];
+            qa19.correct = 3;
+            var qa20 = new QA();
+            qa20.question = "What was the codename for the Gamecube?";
+            qa20.answers = ["Revolution", "Oxygen", "Dolphin", "Project Reality"];
+            qa20.correct = 2;
+            var qa21 = new QA();
+            qa21.question = "When was the Gamecube released in North America?";
+            qa21.answers = ["2003", "2001", "2002", "2000"];
+            qa21.correct = 1;
+            var qa22 = new QA();
+            qa22.question = "Who is the composer of Star Fox Adventures?";
+            qa22.answers = ["David Wise", "Shigeru Miyamoto", "Lee Schuneman", "Koji Kondo"];
+            qa22.correct = 0;
+            var qa23 = new QA();
+            qa23.question = "What was the codename for the Wii?";
+            qa23.answers = ["Revolution", "Oxygen", "Dolphin", "Project Reality"];
+            qa23.correct = 0;
+            var qa24 = new QA();
+            qa24.question = "Which of the following was not a launch game for the Wii in the US?";
+            qa24.answers = ["Twilight Princess", "Red Steel", "Need for Speed: Carbon", "Super Mario Galaxy"];
+            qa24.correct = 3;
+            var qa25 = new QA();
+            qa25.question = "Which of the following was not a launch game for the Wii U in the US?";
+            qa25.answers = ["Pikmin 3", "Assassin's Creed III", "New Super Mario Bros. U", "Nintendo Land"];
+            qa25.correct = 0;
+
+            QAs.push(qa2, qa1, qa3, qa4, qa5, qa6, qa7, qa8, qa9, qa10, qa11, qa12, qa13, qa14, qa15, qa16, qa17, qa18, qa19, qa20, qa21, qa22, qa23, qa24, qa25);
+
+            var qaIndex = 0;
+            var correctAnswers = 0;
+
+			console.log("Starting Ultra Trivia");
+			populateQA();
+			updateInfo();
+			$('#preloader').addClass('hiddendiv');
+			$('#main').removeClass('hiddendiv');
+
+            var seconds = 0;
+            $(document).ready(function(){
+                initSession();
+                startSession();
+                setInterval(function(){
+                    seconds++;
+                    $('#seconds').html(seconds + " Seconds");
+                }, 1000);
+            });
+
+            $('#btnNext').on('click', function(){
+                if(qaIndex < QAs.length){
+                    var radios = document.getElementsByName('answers');
+                    for (var i = 0; i < radios.length; i++) {
+                        if (radios[i].checked) {
+                            $('#error').html("");
+                            var answer = i;
+
+                            if (i == QAs[qaIndex].correct) {
+                                correctAnswers++;
+                                Materialize.toast('correct', 700, 'rounded');
+                            }
+                            else{
+                                Materialize.toast('incorrect', 700, 'rounded');
+                            }
+                            console.log(correctAnswers + "/" + (qaIndex + 1));
+                            qaIndex++;
+                            populateQA();
+                            updateInfo();
+                            break;
+                        }
+                        else if (i == radios.length - 1) {
+                            //no button selected
+                            $('#error').html("You must select an answer");
+                        }
+                    }
+                }
+            });
+
+            $('#btnPlayAgain').on('click', function(){
+               playAgain();
+            });
+
+            function populateQA(){
+                if(qaIndex < QAs.length) {
+                    $('#question').html(QAs[qaIndex].question);
+                    $('#a1').html(QAs[qaIndex].answers[0]);
+                    $('#a2').html(QAs[qaIndex].answers[1]);
+                    $('#a3').html(QAs[qaIndex].answers[2]);
+                    $('#a4').html(QAs[qaIndex].answers[3]);
+                }
+                else{
+                    console.log("END GAME");
+                    $('#main').addClass('hiddendiv');
+                    var score = Math.round((correctAnswers / qaIndex) * 100);
+                    $('#percent').html(score + "%");
+                    $('#end').removeClass('hiddendiv');
+                }
+            }
+            function updateInfo(){
+                var questionNum = (qaIndex + 1);
+                if(questionNum > QAs.length)
+                        questionNum = QAs.length;
+                var info = "Question: " + questionNum + " of " + QAs.length + "<br>Score: " + correctAnswers + "/" + qaIndex;
+                $('#info').html(info);
+            }
+            function playAgain(){
+                qaIndex = 0;
+                correctAnswers = 0;
+
+                $('#end').addClass('hiddendiv');
+                $('#main').removeClass('hiddendiv');
+
+                populateQA();
+                updateInfo();
+            }
+        </script>
+    </body>
+</html>
